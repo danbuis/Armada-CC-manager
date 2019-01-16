@@ -20,12 +20,14 @@ var campaignSchema = mongoose.Schema({
     battles: []
 });
 
-//invite a player
+//invite a player.  
+//Accepts 2 parameters, a username, and a boolean for the faction
 campaignSchema.methods.invitePlayer = function(user, rebel){
     User.findOne({"username": user}, function(err, result){
         //if a player was found
         if(result){
             invitedPlayers.push({result, rebel});
+            result.invites.push(this);
         }
     });  
 }

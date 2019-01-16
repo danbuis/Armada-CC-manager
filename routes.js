@@ -10,5 +10,9 @@ router.use(function(req, res, next) {
 });
 
 router.get("/", function(req, res, next){
-    window.location = "index";
+    window.location = "login";
+});
+
+router.get("/profile", function(req, res, next){
+    window.location = "profile";
 });

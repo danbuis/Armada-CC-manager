@@ -6,8 +6,16 @@ var SALT = 10;
 var userSchema = mongoose.Schema({
     username: {type: String, required: true, unique: true},
     password: {type:String, required: true},
-    createdAt: {type: Date, default:Date.now}
-    
+    createdAt: {type: Date, default:Date.now},
+    invites: [{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:Campaign,
+        rebel:{type:Boolean}
+    }],
+    currentCampaigns: [{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:Campaign
+    }]
 });
 
 var noop = function() {};
@@ -31,6 +39,14 @@ userSchema.methods.checkPassword = function(guess, done){
     bcrypt.compare(guess, this.password, function(err, isMatch){
         done(err, isMatch);
     });
+};
+
+userSchema.methods.sendInvite = function(campaign, rebel){
+    this.invites.push({campaign, rebel});
+}
+
+userSchema.methods.replyToInvite = function(campaign, rebel, accept){
+    
 };
 
 var User = mongoose.model("User", userSchema);
